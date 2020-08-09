@@ -16,12 +16,13 @@ import threading
 import os
 
 PORT = 8000
-DIRECTORY = str(os.path.dirname(os.path.realpath(__file__))) + "/root_dir"
+ROOT_DIR = str(os.path.dirname(os.path.realpath(__file__))) + "/root_dir"
+TEMPLATES_DIR = str(os.path.dirname(os.path.realpath(__file__))) + "/templates"
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=DIRECTORY, **kwargs)
+        super().__init__(*args, directory=ROOT_DIR, **kwargs)
 
 
 def start_webserver():
@@ -63,8 +64,13 @@ def run():
     html_label = Tk.Label(root, text="HTML", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=0, columnspan=2)
     css_label = Tk.Label(root, text="CSS", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=2, columnspan=2)
 
-    html_text = ScrolledText(root).grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=0, columnspan=2)
-    css_text = ScrolledText(root).grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=2, columnspan=2)
+    html_text = ScrolledText(root)
+    html_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=0, columnspan=2)
+    html_text.insert(Tk.END, get_html()) 
+
+    css_text = ScrolledText(root)
+    css_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=2, columnspan=2)
+    css_text.insert(Tk.END, get_css()) 
 
     temperature_label = Tk.Label(root, text="Temperature: 36C", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=2, column=0)
 
@@ -83,10 +89,47 @@ def run():
     apply_button = Tk.Button(reset_apply_button_frame, text="Apply").pack(side=Tk.LEFT)
 
     reset_apply_button_frame.grid(row=2, column=2, columnspan=2, sticky=Tk.E+Tk.S)
-    
 
     root.mainloop()
+
+
+def get_html():
+    # read root_dir/index.html
+    index_html_file = open(ROOT_DIR + "/index.html", "r")
+    index_html = index_html_file.read()
+    index_html_file.close()
     
+    # remove wrapper
+    wrapper_index_html_file = open(TEMPLATES_DIR + "/wrapper_index.html", "r")
+    wrapper_index_html = wrapper_index_html_file.read().split("$(CONTENT)")
+    wrapper_index_html_file.close()
+
+    wrapper_index_html_top = wrapper_index_html[0]
+    wrapper_index_html_bottom = wrapper_index_html[1]
+
+    index_html = index_html.replace(wrapper_index_html_top, '') 
+    index_html = index_html.replace(wrapper_index_html_bottom, '') 
+
+    return index_html
+
+
+def get_css():
+    # read root_dir/style.css
+    style_css_file = open(ROOT_DIR + "/style.css", "r")
+    style_css = style_css_file.read()
+    style_css_file.close()
+
+    # remove wrapper
+    wrapper_style_css_file = open(TEMPLATES_DIR + "/wrapper_style.css", "r")
+    wrapper_style_css = wrapper_style_css_file.read().replace("$(CONTENT)", "")
+    wrapper_style_css_file.close()
+
+    print(wrapper_style_css)
+
+    style_css = style_css.replace(wrapper_style_css, "")
+
+    return style_css
+
 
 if __name__ == '__main__':
     run()
