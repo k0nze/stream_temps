@@ -31,7 +31,6 @@ def start_webserver():
 
 def run():
 
-
     t = threading.Thread(target=start_webserver)
 
     # set as deamon such that the thread is killed when the main thread is killed
@@ -39,7 +38,7 @@ def run():
     t.start()
 
     root = Tk.Tk()
-    root.title("Temperature Webserver")
+    root.title("Stream Temps")
     root.deiconify()
 
     menubar = Tk.Menu(root)
@@ -48,7 +47,7 @@ def run():
     fileMenu = Tk.Menu(menubar)
     fileMenu.add_command(label="About")
     fileMenu.add_separator()
-    fileMenu.add_command(label="Quit")
+    fileMenu.add_command(label="Quit", command=root.quit)
 
     menubar.add_cascade(label="File", menu=fileMenu)
 
@@ -88,5 +87,6 @@ def run():
 
     root.mainloop()
     
+
 if __name__ == '__main__':
     run()
