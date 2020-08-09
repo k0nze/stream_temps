@@ -15,8 +15,11 @@ class View(Tk.Frame):
     def __init__(self, root):
         Tk.Frame.__init__(self, root)
 
+        self.pack(fill="both", expand=True)
+
         menubar = Tk.Menu(self.master)
         self.master.config(menu=menubar)
+
 
         fileMenu = Tk.Menu(menubar)
         fileMenu.add_command(label="About")
@@ -34,20 +37,20 @@ class View(Tk.Frame):
         self.grid_rowconfigure(1, weight=1)
 
 
-        html_label = Tk.Label(root, text="HTML", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=0, columnspan=2)
-        css_label = Tk.Label(root, text="CSS", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=2, columnspan=2)
+        html_label = Tk.Label(self, text="HTML", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=0, columnspan=2)
+        css_label = Tk.Label(self, text="CSS", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=2, columnspan=2)
 
-        html_text = ScrolledText(root)
+        html_text = ScrolledText(self)
         html_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=0, columnspan=2)
         html_text.insert(Tk.END, self.get_html()) 
 
-        css_text = ScrolledText(root)
+        css_text = ScrolledText(self)
         css_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=2, columnspan=2)
         css_text.insert(Tk.END, self.get_css()) 
 
-        temperature_label = Tk.Label(root, text="Temperature: 36C", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=2, column=0)
+        temperature_label = Tk.Label(self, text="Temperature: 36C", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=2, column=0)
 
-        temperature_system_frame = Tk.Frame(root)
+        temperature_system_frame = Tk.Frame(self)
         temperature_system_var = Tk.StringVar()
         temperature_system_var.set("C")
 
@@ -56,7 +59,7 @@ class View(Tk.Frame):
      
         temperature_system_frame.grid(sticky=Tk.E, row=2, column=1)
         
-        reset_apply_button_frame = Tk.Frame(root)
+        reset_apply_button_frame = Tk.Frame(self)
 
         reset_button = Tk.Button(reset_apply_button_frame, text="Reset").pack(side=Tk.LEFT)
         apply_button = Tk.Button(reset_apply_button_frame, text="Apply").pack(side=Tk.LEFT)
