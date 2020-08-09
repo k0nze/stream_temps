@@ -40,13 +40,13 @@ class View(Tk.Frame):
         html_label = Tk.Label(self, text="HTML", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=0, columnspan=2)
         css_label = Tk.Label(self, text="CSS", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=2, columnspan=2)
 
-        html_text = ScrolledText(self)
-        html_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=0, columnspan=2)
-        html_text.insert(Tk.END, self.get_html()) 
+        self.html_text = ScrolledText(self)
+        self.html_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=0, columnspan=2)
+        self.html_text.insert(Tk.END, self.get_html()) 
 
-        css_text = ScrolledText(self)
-        css_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=2, columnspan=2)
-        css_text.insert(Tk.END, self.get_css()) 
+        self.css_text = ScrolledText(self)
+        self.css_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=2, columnspan=2)
+        self.css_text.insert(Tk.END, self.get_css()) 
 
         temperature_label = Tk.Label(self, text="Temperature: 36C", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=2, column=0)
 
@@ -61,8 +61,8 @@ class View(Tk.Frame):
         
         reset_apply_button_frame = Tk.Frame(self)
 
-        reset_button = Tk.Button(reset_apply_button_frame, text="Reset").pack(side=Tk.LEFT)
-        apply_button = Tk.Button(reset_apply_button_frame, text="Apply").pack(side=Tk.LEFT)
+        reset_button = Tk.Button(reset_apply_button_frame, text="Reset", command=self.on_reset).pack(side=Tk.LEFT)
+        apply_button = Tk.Button(reset_apply_button_frame, text="Apply", command=self.on_apply).pack(side=Tk.LEFT)
 
         reset_apply_button_frame.grid(row=2, column=2, columnspan=2, sticky=Tk.E+Tk.S)
 
@@ -103,4 +103,31 @@ class View(Tk.Frame):
         return style_css
 
 
-        
+    def on_reset(self):
+        print("reset")
+
+
+    def on_apply(self):
+        # get scrolled text contents
+        html = self.html_text.get("1.0", Tk.END)
+        css = self.css_text.get("1.0", Tk.END)
+
+        # apply wrappers
+        wrapper_index_html_file = open(TEMPLATES_DIR + "/wrapper_index.html", "r")
+        wrapper_index_html = wrapper_index_html_file.read()
+        wrapper_index_html_file.close()
+
+        index_html = wrapper_index_html.replace("$(CONTENT)\n", html)
+
+        wrapper_style_css_file = open(TEMPLATES_DIR + "/wrapper_style.css", "r")
+        wrapper_style_css = wrapper_style_css_file.read()
+        wrapper_style_css_file.close()
+
+        style_css = wrapper_style_css.replace("$(CONTENT)\n", css)
+
+        # write files
+        with open(ROOT_DIR + "/index.html", "w") as index_html_file:
+            index_html_file.write(index_html)
+
+        with open(ROOT_DIR + "/style.css", "w") as style_css_file:
+            style_css_file.write(style_css)
