@@ -95,7 +95,7 @@ class View(Tk.Frame):
 
         # remove wrapper
         wrapper_style_css_file = open(TEMPLATES_DIR + "/wrapper_style.css", "r")
-        wrapper_style_css = wrapper_style_css_file.read().replace("$(CONTENT)", "")
+        wrapper_style_css = wrapper_style_css_file.read().replace("\n$(CONTENT)", "")
         wrapper_style_css_file.close()
 
         style_css = style_css.replace(wrapper_style_css, "")
@@ -123,7 +123,7 @@ class View(Tk.Frame):
         wrapper_style_css = wrapper_style_css_file.read()
         wrapper_style_css_file.close()
 
-        style_css = wrapper_style_css.replace("$(CONTENT)\n", css)
+        style_css = wrapper_style_css.replace("$(CONTENT)", css.rstrip())
 
         # write files
         with open(ROOT_DIR + "/index.html", "w") as index_html_file:
