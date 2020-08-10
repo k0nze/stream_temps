@@ -11,6 +11,8 @@ except ModuleNotFoundError:
 
 from .consts import *
 
+import socket
+
 class View(Tk.Frame):
     def __init__(self, root):
         Tk.Frame.__init__(self, root)
@@ -65,6 +67,15 @@ class View(Tk.Frame):
         apply_button = Tk.Button(reset_apply_button_frame, text="Apply", command=self.on_apply).pack(side=Tk.LEFT)
 
         reset_apply_button_frame.grid(row=2, column=2, columnspan=2, sticky=Tk.E+Tk.S)
+
+        url_label = Tk.Label(self, text="Browser Source URL:", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=3, column=0, columnspan=2)
+
+        hostname = socket.gethostname()
+        ip_addr = socket.gethostbyname(hostname)
+
+        url_string_var = Tk.StringVar()
+        url_string_var.set("http://"+ip_addr+":"+str(PORT))
+        url_entry = Tk.Entry(self, textvariable=url_string_var, state='readonly', justify=Tk.LEFT).grid(sticky=Tk.E+Tk.W, row=4, column=0, columnspan=2)
 
 
     def get_html(self):
