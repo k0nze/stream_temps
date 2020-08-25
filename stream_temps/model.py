@@ -1,5 +1,7 @@
 import json
 
+from .consts import *
+
 class JsonFileCreateException(Exception):
     """ raised when json model could not be created """
     pass
@@ -75,3 +77,58 @@ class Model():
             self.data['settings']['temperature_system'] = temperature_system
             self.__save_json()
             self.__notify_observers()
+
+    def get_html(self):
+        # read root_dir/index.html
+        index_html_file = open(ROOT_DIR + "/index.html", "r")
+        index_html = index_html_file.read()
+        index_html_file.close()
+        
+        # remove wrapper
+        wrapper_index_html_file = open(TEMPLATES_DIR + "/wrapper_index.html", "r")
+        wrapper_index_html = wrapper_index_html_file.read().split("$(CONTENT)")
+        wrapper_index_html_file.close()
+
+        wrapper_index_html_top = wrapper_index_html[0]
+        wrapper_index_html_bottom = wrapper_index_html[1]
+
+        index_html = index_html.replace(wrapper_index_html_top, '') 
+        index_html = index_html.replace(wrapper_index_html_bottom, '') 
+
+        return index_html
+
+    def get_css(self):
+        # read root_dir/style.css
+        style_css_file = open(ROOT_DIR + "/style.css", "r")
+        style_css = style_css_file.read()
+        style_css_file.close()
+
+        # remove wrapper
+        wrapper_style_css_file = open(TEMPLATES_DIR + "/wrapper_style.css", "r")
+        wrapper_style_css = wrapper_style_css_file.read().replace("\n$(CONTENT)", "")
+        wrapper_style_css_file.close()
+
+        style_css = style_css.replace(wrapper_style_css, "")
+
+        return style_css
+
+    def save_profile(self, html, css):
+        # apply wrappers
+        wrapper_index_html_file = open(TEMPLATES_DIR + "/wrapper_index.html", "r")
+        wrapper_index_html = wrapper_index_html_file.read()
+        wrapper_index_html_file.close()
+
+        index_html = wrapper_index_html.replace("$(CONTENT)\n", html)
+
+        wrapper_style_css_file = open(TEMPLATES_DIR + "/wrapper_style.css", "r")
+        wrapper_style_css = wrapper_style_css_file.read()
+        wrapper_style_css_file.close()
+
+        style_css = wrapper_style_css.replace("$(CONTENT)", css.rstrip())
+
+        # write files
+        with open(ROOT_DIR + "/index.html", "w") as index_html_file:
+            index_html_file.write(index_html)
+
+        with open(ROOT_DIR + "/style.css", "w") as style_css_file:
+            style_css_file.write(style_css)
