@@ -50,6 +50,14 @@ class Model():
             with open(self.json_path.resolve(), 'r') as json_file:
                 self.data = json.load(json_file)
 
+        self.observers = []
+
+    def register_observer(self, observer):
+        self.observers.append(observer)
+
+    def __notify_observers(self):
+        for observer in self.observers:
+            observer.notify()
 
     def __save_json(self):
         try:
@@ -59,7 +67,6 @@ class Model():
         except Exception as e:
             raise JsonFileWriteException
 
-
     def get_temperature_system(self):
         return self.data['settings']['temperature_system']
 
@@ -67,3 +74,4 @@ class Model():
         if temperature_system == "C" or temperature_system == "F":
             self.data['settings']['temperature_system'] = temperature_system
             self.__save_json()
+            self.__notify_observers()
