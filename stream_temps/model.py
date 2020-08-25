@@ -1,4 +1,5 @@
 import json
+import socket
 
 from .consts import *
 
@@ -136,6 +137,13 @@ class Model():
             self.__save_json()
             self.__notify_observers()
 
+    def get_profile_index_html_file(self, profile_name):
+        for profile in self.data['profiles']:
+            if profile_name == profile['name']:
+                return profile['index_html']
+
+        return 'index.html'
+
 
     def get_html(self):
         # read root_dir/index.html
@@ -192,4 +200,10 @@ class Model():
         with open(ROOT_DIR + "/style.css", "w") as style_css_file:
             style_css_file.write(style_css)
 
-    
+    def get_ip_address(self):
+        hostname = socket.gethostname()
+        ip_addr = socket.gethostbyname(hostname)
+        return ip_addr
+
+    def get_url_for_profile(self, profile_name):
+        return "http://" + self.get_ip_address() + ":" + str(PORT) + "/" + self.get_profile_index_html_file(profile_name)

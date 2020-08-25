@@ -12,7 +12,6 @@ except ModuleNotFoundError:
 from .consts import *
 from .add_profile_dialog import AddProfileDialog
 
-import socket
 import copy
 
 class MainWindow(Tk.Frame):
@@ -97,12 +96,9 @@ class MainWindow(Tk.Frame):
         # url 
         url_label = Tk.Label(self, text="Browser Source URL:", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=3, column=0, columnspan=2)
 
-        hostname = socket.gethostname()
-        ip_addr = socket.gethostbyname(hostname)
-
-        url_string_var = Tk.StringVar()
-        url_string_var.set("http://"+ip_addr+":"+str(PORT))
-        url_entry = Tk.Entry(self, textvariable=url_string_var, state='readonly', justify=Tk.LEFT).grid(sticky=Tk.E+Tk.W, row=4, column=0, columnspan=2)
+        self.url_string_var = Tk.StringVar()
+        self.url_string_var.set("http://" + self.model.get_ip_address() + ":" + str(PORT) + "/index.html")
+        url_entry = Tk.Entry(self, textvariable=self.url_string_var, state='readonly', justify=Tk.LEFT).grid(sticky=Tk.E+Tk.W, row=4, column=0, columnspan=2)
 
 
         # selected profile
@@ -155,6 +151,7 @@ class MainWindow(Tk.Frame):
     def on_select_profile(self, profile_name):
         self.selected_profile = profile_name
         self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
+        self.url_string_var.set(self.model.get_url_for_profile(self.selected_profile))
         # TODO update html and css
 
     def on_add_profile(self):
