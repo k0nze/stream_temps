@@ -50,7 +50,7 @@ class MainWindow(Tk.Frame):
 
         self.grid_rowconfigure(1, weight=1)
 
-        self.current_profile = self.model.get_default_profile_name() 
+        self.selected_profile = self.model.get_default_profile_name() 
 
         # HTML and CSS code editor
         html_label = Tk.Label(self, text="HTML", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=0, columnspan=2)
@@ -105,6 +105,13 @@ class MainWindow(Tk.Frame):
         url_entry = Tk.Entry(self, textvariable=url_string_var, state='readonly', justify=Tk.LEFT).grid(sticky=Tk.E+Tk.W, row=4, column=0, columnspan=2)
 
 
+        # selected profile
+        self.selected_profile_label_var = Tk.StringVar()
+        self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
+        selected_profile_label = Tk.Label(self, textvariable=self.selected_profile_label_var, justify=Tk.RIGHT, anchor="e")
+        selected_profile_label.grid(row=4, column=2, columnspan=2)
+
+
     def update_profiles_menu(self):
         self.menubar.delete(2)
         profiles_menu = Tk.Menu(self.menubar)
@@ -116,7 +123,7 @@ class MainWindow(Tk.Frame):
 
         profiles_menu.add_separator()
         profiles_menu.add_command(label="Add New Profile", command=self.on_add_profile)
-        profiles_menu.add_command(label="Delete Current Profile", command=self.on_delete_profile)
+        profiles_menu.add_command(label="Delete Selected Profile", command=self.on_delete_profile)
 
         self.menubar.add_cascade(label="Profiles", menu=profiles_menu)
 
@@ -124,6 +131,7 @@ class MainWindow(Tk.Frame):
     def notify(self):
         self.temperature_label_var.set(TEMPERATURE_SYSTEM_LABEL_TEXT + self.model.get_temperature_system())
         self.update_profiles_menu()
+        self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
 
 
     def on_temperature_system_change(self):
@@ -145,7 +153,8 @@ class MainWindow(Tk.Frame):
         print("about")
     
     def on_select_profile(self, profile_name):
-        self.current_profile = profile_name
+        self.selected_profile = profile_name
+        self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
         # TODO update html and css
 
     def on_add_profile(self):
@@ -158,6 +167,6 @@ class MainWindow(Tk.Frame):
         add_profile_dialog.transient(self.root)
 
     def on_delete_profile(self):
-        profile_to_delete = self.current_profile
-        self.current_profile = self.model.get_default_profile_name() 
+        profile_to_delete = self.selected_profile
+        self.selected_profile = self.model.get_default_profile_name() 
         self.model.delete_profile(profile_to_delete)
