@@ -26,32 +26,21 @@ class MainWindow(Tk.Frame):
 
         self.pack(fill="both", expand=True)
 
-        menubar = Tk.Menu(self.master)
-        self.master.config(menu=menubar)
+        self.menubar = Tk.Menu(self.master)
+        self.master.config(menu=self.menubar)
 
         
         # file menu
-        file_menu = Tk.Menu(menubar)
+        file_menu = Tk.Menu(self.menubar)
         file_menu.add_command(label="About", command=self.on_about)
         file_menu.add_separator()
         file_menu.add_command(label="Quit", command=self.root.quit)
 
-        menubar.add_cascade(label="File", menu=file_menu)
+        self.menubar.add_cascade(label="File", menu=file_menu)
 
-        profiles_menu = Tk.Menu(menubar)
-
-        profile_names = self.model.get_profile_names()
-
-        for profile_name in profile_names:
-            profiles_menu.add_command(label=profile_name, command=self.on_select_profile)
-
-        profiles_menu.add_separator()
-        profiles_menu.add_command(label="Add New Profile", command=self.on_add_profile)
-        profiles_menu.add_command(label="Delete Current Profile", command=self.on_delete_profile)
-
-        menubar.add_cascade(label="Profiles", menu=profiles_menu)
-
-        
+        # profiles menu
+        self.update_profiles_menu()
+                
         # grid config
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -114,8 +103,25 @@ class MainWindow(Tk.Frame):
         url_entry = Tk.Entry(self, textvariable=url_string_var, state='readonly', justify=Tk.LEFT).grid(sticky=Tk.E+Tk.W, row=4, column=0, columnspan=2)
 
 
+    def update_profiles_menu(self):
+        self.menubar.delete(2)
+        profiles_menu = Tk.Menu(self.menubar)
+
+        profile_names = self.model.get_profile_names()
+
+        for profile_name in profile_names:
+            profiles_menu.add_command(label=profile_name, command=self.on_select_profile)
+
+        profiles_menu.add_separator()
+        profiles_menu.add_command(label="Add New Profile", command=self.on_add_profile)
+        profiles_menu.add_command(label="Delete Current Profile", command=self.on_delete_profile)
+
+        self.menubar.add_cascade(label="Profiles", menu=profiles_menu)
+
+
     def notify(self):
         self.temperature_label_var.set(TEMPERATURE_SYSTEM_LABEL_TEXT + self.model.get_temperature_system())
+        self.update_profiles_menu()
 
 
     def on_temperature_system_change(self):

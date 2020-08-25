@@ -69,6 +69,13 @@ class Model():
         except Exception as e:
             raise JsonFileWriteException
 
+    def __name_filter(self, string):
+        # filter out restricted characters 
+        # 0-9 (48-57)
+        # A-Z (65-90)
+        # a-z (97-122)
+        return ''.join([i if (ord(i) >= 48 and ord(i) <= 57) or (ord(i) >= 65 and ord(i) <= 90) or (ord(i) >= 97 and ord(i) <= 122) else '' for i in string]).lower()
+
     def get_temperature_system(self):
         return self.data['settings']['temperature_system']
 
@@ -83,7 +90,30 @@ class Model():
         for profile in self.data['profiles']:
             profile_names.append(profile['name'])
 
-        return profile_names
+        return sorted(profile_names, key=str.casefold)
+
+    def add_profile(self, name):
+        # check if name already exists 
+        profile_names = self.get_profile_names()
+
+        if name in profile_names:
+            number = 2
+            while name + " " + str(number) in profile_names:
+                number = number + 1 
+
+            name = name + " " + str(number)
+
+        # TODO name for index and style
+        self.data['profiles'].append({
+            'name': name,
+            'index_html': 'index_' + self.__name_filter(name) + '.html',
+            'style_css': 'style_' + self.__name_filter(name) + '.css'
+        })
+
+        self.__save_json()
+        self.__notify_observers()
+
+
 
     def get_html(self):
         # read root_dir/index.html

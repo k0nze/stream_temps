@@ -29,8 +29,9 @@ class AddProfileDialog(Tk.Toplevel):
         ok_cancel_button_frame.grid(column=0, row=2, sticky=Tk.E+Tk.S)
 
     def on_ok(self):
-        None
+        self.model.add_profile(self.name_variable.get())
+        self.destroy()
 
     def on_cancel(self):
-        None
+        self.destroy()
 
