@@ -23,7 +23,7 @@ class Controller:
         self.model = Model(json_path)
 
         self.root = Tk.Tk()
-        self.view = View(self.model, self.root)
+        self.view = View(self.model, self)
 
     def run(self):
 
