@@ -10,6 +10,7 @@ except ModuleNotFoundError:
     from tkinter.scrolledtext import ScrolledText
 
 from .consts import *
+from .add_profile_dialog import AddProfileDialog
 
 import socket
 
@@ -19,7 +20,9 @@ class MainWindow(Tk.Frame):
         self.model = model
         self.model.register_observer(self)
 
-        Tk.Frame.__init__(self, root)
+        self.root = root
+
+        Tk.Frame.__init__(self, self.root)
 
         self.pack(fill="both", expand=True)
 
@@ -31,7 +34,7 @@ class MainWindow(Tk.Frame):
         file_menu = Tk.Menu(menubar)
         file_menu.add_command(label="About", command=self.on_about)
         file_menu.add_separator()
-        file_menu.add_command(label="Quit", command=root.quit)
+        file_menu.add_command(label="Quit", command=self.root.quit)
 
         menubar.add_cascade(label="File", menu=file_menu)
 
@@ -137,7 +140,13 @@ class MainWindow(Tk.Frame):
         print("select profile")
 
     def on_add_profile(self):
-        print("add profile")
+        add_profile_dialog = AddProfileDialog(self.root, self.model)
+
+        # make window modal
+        add_profile_dialog.wait_visibility()
+        add_profile_dialog.focus_set()
+        add_profile_dialog.grab_set()
+        add_profile_dialog.transient(self.root)
 
     def on_delete_profile(self):
         print("delete profile")
