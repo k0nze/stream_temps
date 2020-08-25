@@ -28,12 +28,25 @@ class View(Tk.Frame):
 
         
         # file menu
-        fileMenu = Tk.Menu(menubar)
-        fileMenu.add_command(label="About")
-        fileMenu.add_separator()
-        fileMenu.add_command(label="Quit", command=root.quit)
+        file_menu = Tk.Menu(menubar)
+        file_menu.add_command(label="About")
+        file_menu.add_separator()
+        file_menu.add_command(label="Quit", command=root.quit)
 
-        menubar.add_cascade(label="File", menu=fileMenu)
+        menubar.add_cascade(label="File", menu=file_menu)
+
+        profiles_menu = Tk.Menu(menubar)
+
+        profile_names = self.model.get_profile_names()
+
+        for profile_name in profile_names:
+            profiles_menu.add_command(label=profile_name)
+
+        profiles_menu.add_separator()
+        profiles_menu.add_command(label="Add New Profile")
+        profiles_menu.add_command(label="Delete Current Profile")
+
+        menubar.add_cascade(label="Profiles", menu=profiles_menu)
 
         
         # grid config

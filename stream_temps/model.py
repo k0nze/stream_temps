@@ -78,6 +78,13 @@ class Model():
             self.__save_json()
             self.__notify_observers()
 
+    def get_profile_names(self):
+        profile_names = []     
+        for profile in self.data['profiles']:
+            profile_names.append(profile['name'])
+
+        return profile_names
+
     def get_html(self):
         # read root_dir/index.html
         index_html_file = open(ROOT_DIR + "/index.html", "r")
@@ -132,3 +139,5 @@ class Model():
 
         with open(ROOT_DIR + "/style.css", "w") as style_css_file:
             style_css_file.write(style_css)
+
+    
