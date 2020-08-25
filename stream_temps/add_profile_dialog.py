@@ -8,9 +8,11 @@ class AddProfileDialog(Tk.Toplevel):
         Tk.Toplevel.__init__(self, master)
 
         self.model = model
+        
+        self.minsize(246, 66)
+        self.resizable(False, False)
 
-        #self.minsize(282, 390)
-        #self.resizable(False, False)
+        self.title("Add New Profile")
 
         name_label = Tk.Label(self, text="New Profile Name:")
         name_label.grid(sticky=Tk.W, column=0, row=0)
@@ -27,6 +29,10 @@ class AddProfileDialog(Tk.Toplevel):
         ok_button = Tk.Button(ok_cancel_button_frame, text="Cancel", command=self.on_cancel).pack(side=Tk.LEFT)
 
         ok_cancel_button_frame.grid(column=0, row=2, sticky=Tk.E+Tk.S)
+
+        # get window size
+        #self.update()
+        #print(self.winfo_width(), self.winfo_height())
 
     def on_ok(self):
         self.model.add_profile(self.name_variable.get())

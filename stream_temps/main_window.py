@@ -128,6 +128,7 @@ class MainWindow(Tk.Frame):
         self.temperature_label_var.set(TEMPERATURE_SYSTEM_LABEL_TEXT + self.model.get_temperature_system())
         self.update_profiles_menu()
         self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
+        self.url_string_var.set(self.model.get_url_for_profile(self.selected_profile))
 
 
     def on_temperature_system_change(self):
@@ -167,3 +168,6 @@ class MainWindow(Tk.Frame):
         profile_to_delete = self.selected_profile
         self.selected_profile = self.model.get_default_profile_name() 
         self.model.delete_profile(profile_to_delete)
+
+        
+
