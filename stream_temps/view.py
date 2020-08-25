@@ -14,7 +14,7 @@ from .consts import *
 import socket
 
 class View(Tk.Frame):
-    def __init__(self, root):
+    def __init__(self, model, root):
         Tk.Frame.__init__(self, root)
 
         self.pack(fill="both", expand=True)

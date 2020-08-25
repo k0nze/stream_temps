@@ -6,16 +6,24 @@ except ModuleNotFoundError:
 import threading
 import socketserver
 
+from pathlib import Path
+
 from .consts import *
 
 from .view import View
+from .model import Model
 from .web_server import WebServer
 
 
 class Controller:
     def __init__(self):
+        user_dir = Path.home()
+        json_path = Path.joinpath(user_dir, '.stream_temps.json')
+
+        self.model = Model(json_path)
+
         self.root = Tk.Tk()
-        self.view = View(self.root)
+        self.view = View(self.model, self.root)
 
     def run(self):
 
