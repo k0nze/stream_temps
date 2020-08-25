@@ -15,6 +15,9 @@ import socket
 
 class View(Tk.Frame):
     def __init__(self, model, root):
+
+        self.model = model
+
         Tk.Frame.__init__(self, root)
 
         self.pack(fill="both", expand=True)
@@ -22,7 +25,8 @@ class View(Tk.Frame):
         menubar = Tk.Menu(self.master)
         self.master.config(menu=menubar)
 
-
+        
+        # file menu
         fileMenu = Tk.Menu(menubar)
         fileMenu.add_command(label="About")
         fileMenu.add_separator()
@@ -30,7 +34,8 @@ class View(Tk.Frame):
 
         menubar.add_cascade(label="File", menu=fileMenu)
 
-
+        
+        # grid config
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
@@ -39,6 +44,7 @@ class View(Tk.Frame):
         self.grid_rowconfigure(1, weight=1)
 
 
+        # HTML and CSS code editor
         html_label = Tk.Label(self, text="HTML", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=0, columnspan=2)
         css_label = Tk.Label(self, text="CSS", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=2, columnspan=2)
 
@@ -50,17 +56,27 @@ class View(Tk.Frame):
         self.css_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=2, columnspan=2)
         self.css_text.insert(Tk.END, self.get_css()) 
 
-        temperature_label = Tk.Label(self, text="Temperature: 36C", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=2, column=0)
+
+        # select temperature system
+        temperature_system = self.model.get_temperature_system()
+
+        temperature_label = Tk.Label(self, text="Temperature: 36" + temperature_system, justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=2, column=0)
 
         temperature_system_frame = Tk.Frame(self)
-        temperature_system_var = Tk.StringVar()
-        temperature_system_var.set("C")
+        self.temperature_system_var = Tk.StringVar()
+        self.temperature_system_var.set('C')
 
-        temperature_system_c = Tk.Radiobutton(temperature_system_frame, text="C", variable=temperature_system_var, value="C").pack(side=Tk.LEFT)
-        temperature_system_f = Tk.Radiobutton(temperature_system_frame, text="F", variable=temperature_system_var, value="F").pack(side=Tk.LEFT)
+        temperature_system_c = Tk.Radiobutton(temperature_system_frame, text='C', variable=self.temperature_system_var, value='C')
+        temperature_system_c.pack(side=Tk.LEFT)
+        temperature_system_c.invoke()
+
+        temperature_system_f = Tk.Radiobutton(temperature_system_frame, text='F', variable=self.temperature_system_var, value='F')
+        temperature_system_f.pack(side=Tk.LEFT)
      
         temperature_system_frame.grid(sticky=Tk.E, row=2, column=1)
+
         
+        # reset and apply buttons
         reset_apply_button_frame = Tk.Frame(self)
 
         reset_button = Tk.Button(reset_apply_button_frame, text="Reset", command=self.on_reset).pack(side=Tk.LEFT)
@@ -68,6 +84,8 @@ class View(Tk.Frame):
 
         reset_apply_button_frame.grid(row=2, column=2, columnspan=2, sticky=Tk.E+Tk.S)
 
+        
+        # url 
         url_label = Tk.Label(self, text="Browser Source URL:", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=3, column=0, columnspan=2)
 
         hostname = socket.gethostname()

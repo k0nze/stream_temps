@@ -28,7 +28,7 @@ class Model():
 
                     self.data = {
                         'settings': {
-                            'temperature_unit': 'C'
+                            'temperature_system': 'C'
                         },
                         'profiles': [
                             {
@@ -51,3 +51,19 @@ class Model():
                 self.data = json.load(json_file)
 
 
+    def __save_json(self):
+        try:
+            with open(self.json_path.resolve(), 'w') as json_file:
+                json.dump(self.data, json_file, sort_keys=True, indent=4)
+
+        except Exception as e:
+            raise JsonFileWriteException
+
+
+    def get_temperature_system(self):
+        return self.data['settings']['temperature_system']
+
+    def set_temperature_system(self, temperature_system):
+        if temperature_system == "C" or temperature_system == "F":
+            self.data['settings']['temperature_system'] = temperature_system
+            self.__save_json()
