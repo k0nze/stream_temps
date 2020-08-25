@@ -13,6 +13,7 @@ from .consts import *
 from .add_profile_dialog import AddProfileDialog
 
 import socket
+import copy
 
 class MainWindow(Tk.Frame):
     def __init__(self, model, root):
@@ -49,6 +50,7 @@ class MainWindow(Tk.Frame):
 
         self.grid_rowconfigure(1, weight=1)
 
+        self.current_profile = self.model.get_default_profile_name() 
 
         # HTML and CSS code editor
         html_label = Tk.Label(self, text="HTML", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=0, column=0, columnspan=2)
@@ -110,7 +112,7 @@ class MainWindow(Tk.Frame):
         profile_names = self.model.get_profile_names()
 
         for profile_name in profile_names:
-            profiles_menu.add_command(label=profile_name, command=self.on_select_profile)
+            profiles_menu.add_command(label=profile_name, command=lambda profile_name=profile_name: self.on_select_profile(profile_name))
 
         profiles_menu.add_separator()
         profiles_menu.add_command(label="Add New Profile", command=self.on_add_profile)
@@ -142,8 +144,9 @@ class MainWindow(Tk.Frame):
     def on_about(self):
         print("about")
     
-    def on_select_profile(self):
-        print("select profile")
+    def on_select_profile(self, profile_name):
+        self.current_profile = profile_name
+        # TODO update html and css
 
     def on_add_profile(self):
         add_profile_dialog = AddProfileDialog(self.root, self.model)
@@ -155,4 +158,6 @@ class MainWindow(Tk.Frame):
         add_profile_dialog.transient(self.root)
 
     def on_delete_profile(self):
-        print("delete profile")
+        profile_to_delete = self.current_profile
+        self.current_profile = self.model.get_default_profile_name() 
+        self.model.delete_profile(profile_to_delete)

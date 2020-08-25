@@ -85,6 +85,7 @@ class Model():
             self.__save_json()
             self.__notify_observers()
 
+
     def get_profile_names(self):
         profile_names = []     
         for profile in self.data['profiles']:
@@ -92,27 +93,48 @@ class Model():
 
         return sorted(profile_names, key=str.casefold)
 
-    def add_profile(self, name):
+    def get_default_profile_name(self):
+        profile_names = self.get_profile_names()
+
+        if "Default" in profile_names:
+            return "Default"
+
+        return profile_names[0]
+
+    def add_profile(self, profile_name):
         # check if name already exists 
         profile_names = self.get_profile_names()
 
-        if name in profile_names:
+        if profile_name in profile_names:
             number = 2
-            while name + " " + str(number) in profile_names:
+            while profile_name + " " + str(number) in profile_names:
                 number = number + 1 
 
-            name = name + " " + str(number)
+            profile_name = profile_name + " " + str(number)
 
         # TODO name for index and style
+        # TODO create index and style
         self.data['profiles'].append({
-            'name': name,
-            'index_html': 'index_' + self.__name_filter(name) + '.html',
-            'style_css': 'style_' + self.__name_filter(name) + '.css'
+            'name': profile_name,
+            'index_html': 'index_' + self.__name_filter(profile_name) + '.html',
+            'style_css': 'style_' + self.__name_filter(profile_name) + '.css'
         })
 
         self.__save_json()
         self.__notify_observers()
 
+    def delete_profile(self, profile_name):
+        if profile_name != self.get_default_profile_name():
+            new_profiles = []
+           
+            for profile in self.data['profiles']:
+                if profile['name'] != profile_name:
+                    new_profiles.append(profile)
+
+            self.data['profiles'] = new_profiles
+
+            self.__save_json()
+            self.__notify_observers()
 
 
     def get_html(self):
