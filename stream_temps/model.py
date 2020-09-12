@@ -210,7 +210,7 @@ class Model():
         index_html = wrapper_index_html.replace("$(CONTENT)\n", html)
 
         # replace 'style.css' string with the profile style.css
-        #index_html = index_html.replace('<link rel="stylesheet" href="style.css" />', '<link rel="stylesheet" href="' + self.get_profile_style_css_file_name(profile_name) + '" />')
+        index_html = index_html.replace('<link rel="stylesheet" href="style.css" />', '<link rel="stylesheet" href="' + self.get_profile_style_css_file_name(profile_name) + '" />')
 
         wrapper_style_css_file = open(TEMPLATES_DIR + "/wrapper_style.css", "r")
         wrapper_style_css = wrapper_style_css_file.read()
