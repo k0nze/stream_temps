@@ -225,6 +225,13 @@ class Model():
         with open(ROOT_DIR + "/" + self.get_profile_style_css_file_name(profile_name), "w") as style_css_file:
             style_css_file.write(style_css)
 
+    def reset_profile(self, profile_name):
+        # copy templates
+        copyfile(TEMPLATES_DIR + "/content_index.html", ROOT_DIR + "/" + self.get_profile_index_html_file_name(profile_name))
+        copyfile(TEMPLATES_DIR + "/content_style.css", ROOT_DIR + "/" + self.get_profile_style_css_file_name(profile_name))
+
+        self.__notify_observers()
+
     def get_ip_address(self):
 
         # TODO fix and display multiple addresses in MainWindow

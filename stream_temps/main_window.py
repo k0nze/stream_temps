@@ -128,14 +128,14 @@ class MainWindow(Tk.Frame):
         self.update_profiles_menu()
         self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
         self.url_string_var.set(self.model.get_url_for_profile(self.selected_profile))
+        self.update_index_style_texts()
 
 
     def on_temperature_system_change(self):
         self.model.set_temperature_system(self.temperature_system_var.get())
 
-
     def on_reset(self):
-        print("reset")
+        self.model.reset_profile(self.selected_profile)
 
 
     def on_apply(self):
