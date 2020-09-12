@@ -1,5 +1,8 @@
 import json
 import socket
+import os
+
+from shutil import copyfile
 
 from .consts import *
 
@@ -113,12 +116,18 @@ class Model():
 
             profile_name = profile_name + " " + str(number)
 
-        # TODO name for index and style
-        # TODO create index and style
+        # get file names
+        index_html_file_name = 'index_' + self.__name_filter(profile_name) + '.html'
+        style_css_file_name = 'style_' + self.__name_filter(profile_name) + '.css'
+    
+        # copy templates
+        copyfile(TEMPLATES_DIR + "/content_index.html", ROOT_DIR + "/" + index_html_file_name)
+        copyfile(TEMPLATES_DIR + "/content_style.css", ROOT_DIR + "/" + style_css_file_name)
+
         self.data['profiles'].append({
             'name': profile_name,
-            'index_html': 'index_' + self.__name_filter(profile_name) + '.html',
-            'style_css': 'style_' + self.__name_filter(profile_name) + '.css'
+            'index_html': index_html_file_name,
+            'style_css': style_css_file_name
         })
 
         self.__save_json()
@@ -131,6 +140,9 @@ class Model():
             for profile in self.data['profiles']:
                 if profile['name'] != profile_name:
                     new_profiles.append(profile)
+                else:
+                    os.remove(ROOT_DIR + "/" + profile['index_html'])
+                    os.remove(ROOT_DIR + "/" + profile['style_css'])
 
             self.data['profiles'] = new_profiles
 
