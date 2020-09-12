@@ -176,6 +176,7 @@ class MainWindow(Tk.Frame):
         profile_to_delete = self.selected_profile
         self.selected_profile = self.model.get_default_profile_name() 
         self.model.delete_profile(profile_to_delete)
+        self.update_index_style_texts()
 
         
 
