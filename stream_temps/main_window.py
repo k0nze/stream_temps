@@ -57,12 +57,11 @@ class MainWindow(Tk.Frame):
 
         self.html_text = ScrolledText(self)
         self.html_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=0, columnspan=2)
-        self.html_text.insert(Tk.END, self.model.get_html()) 
 
         self.css_text = ScrolledText(self)
         self.css_text.grid(sticky=Tk.W+Tk.E+Tk.S+Tk.N, row=1, column=2, columnspan=2)
-        self.css_text.insert(Tk.END, self.model.get_css()) 
 
+        self.update_index_style_texts()
 
         # select temperature system
         temperature_system = self.model.get_temperature_system()
@@ -144,7 +143,7 @@ class MainWindow(Tk.Frame):
         html = self.html_text.get("1.0", Tk.END)
         css = self.css_text.get("1.0", Tk.END)
 
-        self.model.save_profile(html, css)
+        self.model.save_profile(self.selected_profile, html, css)
 
     def on_about(self):
         print("about")
@@ -153,7 +152,16 @@ class MainWindow(Tk.Frame):
         self.selected_profile = profile_name
         self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
         self.url_string_var.set(self.model.get_url_for_profile(self.selected_profile))
-        # TODO update html and css
+        self.update_index_style_texts()
+
+    def update_index_style_texts(self):
+        self.html_text.delete("1.0", Tk.END)
+        self.html_text.insert(Tk.END, self.model.get_html(self.selected_profile)) 
+        #self.html_text.insert(Tk.END, self.selected_profile) 
+
+        self.css_text.delete("1.0", Tk.END)
+        self.css_text.insert(Tk.END, self.model.get_css(self.selected_profile)) 
+        #self.css_text.insert(Tk.END, self.selected_profile) 
 
     def on_add_profile(self):
         add_profile_dialog = AddProfileDialog(self.root, self.model)

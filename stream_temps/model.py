@@ -149,17 +149,24 @@ class Model():
             self.__save_json()
             self.__notify_observers()
 
-    def get_profile_index_html_file(self, profile_name):
+    def get_profile_index_html_file_name(self, profile_name):
         for profile in self.data['profiles']:
             if profile_name == profile['name']:
                 return profile['index_html']
 
         return 'index.html'
 
+    def get_profile_style_css_file_name(self, profile_name):
+        for profile in self.data['profiles']:
+            if profile_name == profile['name']:
+                return profile['style_css']
 
-    def get_html(self):
+        return 'style.css'
+
+
+    def get_html(self, profile_name):
         # read root_dir/index.html
-        index_html_file = open(ROOT_DIR + "/index.html", "r")
+        index_html_file = open(ROOT_DIR+ "/" + self.get_profile_index_html_file_name(profile_name), "r")
         index_html = index_html_file.read()
         index_html_file.close()
         
@@ -176,9 +183,9 @@ class Model():
 
         return index_html
 
-    def get_css(self):
+    def get_css(self, profile_name):
         # read root_dir/style.css
-        style_css_file = open(ROOT_DIR + "/style.css", "r")
+        style_css_file = open(ROOT_DIR + "/" + self.get_profile_style_css_file_name(profile_name), "r")
         style_css = style_css_file.read()
         style_css_file.close()
 
@@ -191,7 +198,7 @@ class Model():
 
         return style_css
 
-    def save_profile(self, html, css):
+    def save_profile(self, profile_name, html, css):
         # apply wrappers
         wrapper_index_html_file = open(TEMPLATES_DIR + "/wrapper_index.html", "r")
         wrapper_index_html = wrapper_index_html_file.read()
@@ -206,10 +213,10 @@ class Model():
         style_css = wrapper_style_css.replace("$(CONTENT)", css.rstrip())
 
         # write files
-        with open(ROOT_DIR + "/index.html", "w") as index_html_file:
+        with open(ROOT_DIR + "/" + self.get_profile_index_html_file_name(profile_name), "w") as index_html_file:
             index_html_file.write(index_html)
 
-        with open(ROOT_DIR + "/style.css", "w") as style_css_file:
+        with open(ROOT_DIR + "/" + self.get_profile_style_css_file_name(profile_name), "w") as style_css_file:
             style_css_file.write(style_css)
 
     def get_ip_address(self):
@@ -218,4 +225,4 @@ class Model():
         return ip_addr
 
     def get_url_for_profile(self, profile_name):
-        return "http://" + self.get_ip_address() + ":" + str(PORT) + "/" + self.get_profile_index_html_file(profile_name)
+        return "http://" + self.get_ip_address() + ":" + str(PORT) + "/" + self.get_profile_index_html_file_name(profile_name)
