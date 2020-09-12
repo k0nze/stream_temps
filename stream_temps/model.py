@@ -40,7 +40,7 @@ class Model():
                             {
                                 'name': 'default',
                                 'index_html': 'index.html',
-                                'style.css': 'style.css'
+                                'style_css': 'style.css'
                             }
                         ]
                     }
