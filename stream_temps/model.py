@@ -80,6 +80,45 @@ class Model():
         # a-z (97-122)
         return ''.join([i if (ord(i) >= 48 and ord(i) <= 57) or (ord(i) >= 65 and ord(i) <= 90) or (ord(i) >= 97 and ord(i) <= 122) else '' for i in string]).lower()
 
+    def __apply_index_html_wrapper(self, index_html_content, profile_name):
+        # apply wrappers
+        wrapper_index_html_file = open(TEMPLATES_DIR + "/wrapper_index.html", "r")
+        wrapper_index_html = wrapper_index_html_file.read()
+        wrapper_index_html_file.close()
+
+        index_html = wrapper_index_html.replace("$(CONTENT)\n", index_html_content)
+
+        # replace 'style.css' string with the profile style.css
+        index_html = index_html.replace('<link rel="stylesheet" href="style.css" />', '<link rel="stylesheet" href="' + self.get_profile_style_css_file_name(profile_name) + '" />')
+
+        return index_html
+
+    def __apply_style_css_wrapper(self, style_css_content):
+        wrapper_style_css_file = open(TEMPLATES_DIR + "/wrapper_style.css", "r")
+        wrapper_style_css = wrapper_style_css_file.read()
+        wrapper_style_css_file.close()
+
+        style_css = wrapper_style_css.replace("$(CONTENT)", style_css_content.rstrip())
+
+        return style_css
+
+    def __assemble_index_style_template(self, profile_name):
+        # read content_index.html 
+        index_html_content = open(TEMPLATES_DIR + "/content_index.html", "r")
+        index_html_content = index_html_content.read()
+        index_html = self.__apply_index_html_wrapper(index_html_content, profile_name)
+
+        style_css_content = open(TEMPLATES_DIR + "/content_style.css", "r")
+        style_css_content = style_css_content.read()
+        style_css = self.__apply_style_css_wrapper(style_css_content)
+
+        with open(ROOT_DIR + "/" + self.get_profile_index_html_file_name(profile_name), "w") as index_html_file:
+            index_html_file.write(index_html)
+
+        with open(ROOT_DIR + "/" + self.get_profile_style_css_file_name(profile_name), "w") as style_css_file:
+            style_css_file.write(style_css)
+
+
     def get_temperature_system(self):
         return self.data['settings']['temperature_system']
 
@@ -105,6 +144,7 @@ class Model():
 
         return profile_names[0]
 
+
     def add_profile(self, profile_name):
         # check if name already exists 
         profile_names = self.get_profile_names()
@@ -120,15 +160,13 @@ class Model():
         index_html_file_name = 'index_' + self.__name_filter(profile_name) + '.html'
         style_css_file_name = 'style_' + self.__name_filter(profile_name) + '.css'
     
-        # copy templates
-        copyfile(TEMPLATES_DIR + "/content_index.html", ROOT_DIR + "/" + index_html_file_name)
-        copyfile(TEMPLATES_DIR + "/content_style.css", ROOT_DIR + "/" + style_css_file_name)
-
         self.data['profiles'].append({
             'name': profile_name,
             'index_html': index_html_file_name,
             'style_css': style_css_file_name
         })
+
+        self.__assemble_index_style_template(profile_name)
 
         self.__save_json()
         self.__notify_observers()
@@ -202,21 +240,8 @@ class Model():
         return style_css
 
     def save_profile(self, profile_name, html, css):
-        # apply wrappers
-        wrapper_index_html_file = open(TEMPLATES_DIR + "/wrapper_index.html", "r")
-        wrapper_index_html = wrapper_index_html_file.read()
-        wrapper_index_html_file.close()
-
-        index_html = wrapper_index_html.replace("$(CONTENT)\n", html)
-
-        # replace 'style.css' string with the profile style.css
-        index_html = index_html.replace('<link rel="stylesheet" href="style.css" />', '<link rel="stylesheet" href="' + self.get_profile_style_css_file_name(profile_name) + '" />')
-
-        wrapper_style_css_file = open(TEMPLATES_DIR + "/wrapper_style.css", "r")
-        wrapper_style_css = wrapper_style_css_file.read()
-        wrapper_style_css_file.close()
-
-        style_css = wrapper_style_css.replace("$(CONTENT)", css.rstrip())
+        index_html = self.__apply_index_html_wrapper(html, profile_name)
+        style_css = self.__apply_style_css_wrapper(css)
 
         # write files
         with open(ROOT_DIR + "/" + self.get_profile_index_html_file_name(profile_name), "w") as index_html_file:
@@ -225,11 +250,9 @@ class Model():
         with open(ROOT_DIR + "/" + self.get_profile_style_css_file_name(profile_name), "w") as style_css_file:
             style_css_file.write(style_css)
 
-    def reset_profile(self, profile_name):
-        # copy templates
-        copyfile(TEMPLATES_DIR + "/content_index.html", ROOT_DIR + "/" + self.get_profile_index_html_file_name(profile_name))
-        copyfile(TEMPLATES_DIR + "/content_style.css", ROOT_DIR + "/" + self.get_profile_style_css_file_name(profile_name))
 
+    def reset_profile(self, profile_name):
+        self.__assemble_index_style_template(profile_name)
         self.__notify_observers()
 
     def get_ip_address(self):
