@@ -1,6 +1,6 @@
 import json
-import socket
 import os
+import netifaces
 
 from shutil import copyfile
 
@@ -226,9 +226,20 @@ class Model():
             style_css_file.write(style_css)
 
     def get_ip_address(self):
-        hostname = socket.gethostname()
-        ip_addr = socket.gethostbyname(hostname)
-        return ip_addr
+
+        # TODO fix and display multiple addresses in MainWindow
+        # get all IPv4 addresses 
+        ip_list = []
+        for interface in netifaces.interfaces():
+            for link in netifaces.ifaddresses(interface).get(netifaces.AF_INET, ()):
+                if '127.0' not in link['addr']:
+                    ip_list.append(link['addr'])
+
+
+        if len(ip_list) < 1:
+            return "localhost"
+
+        return ip_list[0]
 
     def get_url_for_profile(self, profile_name):
         return "http://" + self.get_ip_address() + ":" + str(PORT) + "/" + self.get_profile_index_html_file_name(profile_name)
