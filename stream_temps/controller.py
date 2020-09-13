@@ -6,6 +6,7 @@ except ModuleNotFoundError:
 import threading
 import socketserver
 import time
+import Adafruit_DHT
 
 from pathlib import Path
 
@@ -49,9 +50,18 @@ class Controller:
             httpd.serve_forever()
 
     def start_dht_reader(self):
+        DHT_SENSOR = Adafruit_DHT.DHT22
+        DHT_PIN = 4
+
         while True:
-            print("temp")
-            time.sleep(3)
+            humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+
+            if humidity is not None and temperature is not None:
+                self.model.set_temperature(temperature)
+            else:
+                self.model.set_temperature(None)
+
+            time.sleep(30)
 
     def quit(self):
         self.root.quit()

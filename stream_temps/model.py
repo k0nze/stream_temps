@@ -57,6 +57,8 @@ class Model():
                 self.data = json.load(json_file)
 
         self.observers = []
+        self.temperature_observers = []
+        self.temperature = 0
 
     def register_observer(self, observer):
         self.observers.append(observer)
@@ -64,6 +66,13 @@ class Model():
     def __notify_observers(self):
         for observer in self.observers:
             observer.notify()
+
+    def register_temperature_observer(self, temperature_observer):
+        self.temperature_observers.append(temperature_observer)
+
+    def __notify_temperature_observers(self):
+        for temperature_observer in self.temperature_observers:
+            temperature_observer.update_temperature()
 
     def __save_json(self):
         try:
@@ -128,6 +137,15 @@ class Model():
             self.__save_json()
             self.__notify_observers()
 
+    def set_temperature(self, temperature):
+        self.temperature = temperature
+        self.__notify_temperature_observers()
+
+    def get_temperature(self):
+        if self.data['settings']['temperature_system'] == "C":
+            return self.temperature
+        else:
+            return (self.temperature * (9/5)) + 32
 
     def get_profile_names(self):
         profile_names = []     

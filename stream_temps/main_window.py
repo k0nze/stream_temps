@@ -19,6 +19,7 @@ class MainWindow(Tk.Frame):
 
         self.model = model
         self.model.register_observer(self)
+        self.model.register_temperature_observer(self)
 
         self.root = root
 
@@ -67,7 +68,7 @@ class MainWindow(Tk.Frame):
         temperature_system = self.model.get_temperature_system()
 
         self.temperature_label_var = Tk.StringVar()
-        self.temperature_label_var.set(TEMPERATURE_SYSTEM_LABEL_TEXT + temperature_system)
+        self.temperature_label_var.set("Temperature: 0" + temperature_system)
         temperature_label = Tk.Label(self, textvariable=self.temperature_label_var, justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=2, column=0)
 
         temperature_system_frame = Tk.Frame(self)
@@ -122,13 +123,20 @@ class MainWindow(Tk.Frame):
 
         self.menubar.add_cascade(label="Profiles", menu=profiles_menu)
 
+    def update_temperature(self):
+        temperature = self.model.get_temperature()
+
+        if temperature is not None:
+            self.temperature_label_var.set("Temperature: "  + "{:.1f}".format(temperature) + self.model.get_temperature_system())
+        else:
+            self.temperature_label_var.set("Temperature: "  + "Can't read from sensor!")
 
     def notify(self):
-        self.temperature_label_var.set(TEMPERATURE_SYSTEM_LABEL_TEXT + self.model.get_temperature_system())
         self.update_profiles_menu()
         self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
         self.url_string_var.set(self.model.get_url_for_profile(self.selected_profile))
         self.update_index_style_texts()
+        self.update_temperature()
 
 
     def on_temperature_system_change(self):
