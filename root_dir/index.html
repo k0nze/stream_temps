@@ -17,13 +17,23 @@
     </body>
     <script>
         function updateTemperature() {
-            $('#degree').html(42);
+	    $.get('temperature.txt', function(data) {
+                var temperature = parseFloat(data);
+		if(!isNaN(temperature)) {
+                    var degree_content = $('#degree').html();
+	            degree_content = degree_content.replace("$(TEMPERATURE)", temperature);
+	            $('#degree').html(degree_content);
+		}
+	    });
         }
+	//setInterval(updateTemperature, 5000);
 
+	/*
         function reloadPage() {
             location.reload();
         }
-        setInterval(reloadPage, 5000);
+        setInterval(reloadPage, 30000);
+	*/
 
         $(document).ready(function() {
             updateTemperature();
