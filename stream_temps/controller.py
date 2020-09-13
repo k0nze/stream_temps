@@ -5,6 +5,7 @@ except ModuleNotFoundError:
 
 import threading
 import socketserver
+import time
 
 from pathlib import Path
 
@@ -27,11 +28,17 @@ class Controller:
 
     def run(self):
 
-        t = threading.Thread(target=self.start_webserver)
+        webserver_thread = threading.Thread(target=self.start_webserver)
 
         # set as deamon such that the thread is killed when the main thread is killed
-        t.setDaemon(True) 
-        t.start()
+        webserver_thread.setDaemon(True) 
+        webserver_thread.start()
+
+        dht_reader_thread = threading.Thread(target=self.start_dht_reader)
+
+        # set as deamon such that the thread is killed when the main thread is killed
+        dht_reader_thread.setDaemon(True) 
+        dht_reader_thread.start()
 
         self.root.title("Stream Temps")
         self.root.deiconify()
@@ -40,6 +47,11 @@ class Controller:
     def start_webserver(self):
         with socketserver.TCPServer(("", PORT), WebServer) as httpd:
             httpd.serve_forever()
+
+    def start_dht_reader(self):
+        while True:
+            print("temp")
+            time.sleep(3)
 
     def quit(self):
         self.root.quit()
