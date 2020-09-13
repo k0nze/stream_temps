@@ -127,6 +127,9 @@ class Model():
         with open(ROOT_DIR + "/" + self.get_profile_style_css_file_name(profile_name), "w") as style_css_file:
             style_css_file.write(style_css)
 
+    def __update_temperature_file(self):
+        with open(ROOT_DIR + "/" + "temperature.txt", "w") as temperature_file:
+            temperature_file.write("{:.1f}".format(self.get_temperature()))
 
     def get_temperature_system(self):
         return self.data['settings']['temperature_system']
@@ -134,11 +137,14 @@ class Model():
     def set_temperature_system(self, temperature_system):
         if temperature_system == "C" or temperature_system == "F":
             self.data['settings']['temperature_system'] = temperature_system
+            self.__update_temperature_file()
             self.__save_json()
             self.__notify_observers()
 
     def set_temperature(self, temperature):
         self.temperature = temperature
+
+        self.__update_temperature_file()
         self.__notify_temperature_observers()
 
     def get_temperature(self):
