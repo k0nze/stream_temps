@@ -6,6 +6,7 @@ except ModuleNotFoundError:
 import threading
 import socketserver
 import time
+import urllib.request
 
 try:
     import Adafruit_DHT
@@ -48,6 +49,13 @@ class Controller:
         dht_reader_thread.setDaemon(True) 
         dht_reader_thread.start()
 
+        online_checker_thread = threading.Thread(target=self.start_online_checker)
+        
+        # set as deamon such that the thread is killed when the main thread is killed
+        online_checker_thread.setDaemon(True) 
+        online_checker_thread.start()
+
+
         self.root.title("Stream Temps")
         self.root.deiconify()
         self.root.mainloop()
@@ -75,6 +83,19 @@ class Controller:
             while True:
                 self.model.set_temperature(42)
                 time.sleep(30)
+
+    def start_online_checker(self):
+        while True:
+            try:
+                response = urllib.request.urlopen(self.model.get_url_for_profile("default"))
+                if response.getcode() == 200:
+                    self.model.set_online_status(True)
+                else:
+                    self.model.set_online_status(False)
+            except:
+                    self.model.set_online_status(False)
+            time.sleep(5)
+
 
     def quit(self):
         self.root.quit()

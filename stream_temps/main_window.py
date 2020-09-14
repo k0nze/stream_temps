@@ -20,6 +20,7 @@ class MainWindow(Tk.Frame):
         self.model = model
         self.model.register_observer(self)
         self.model.register_temperature_observer(self)
+        self.model.register_online_status_observer(self)
 
         self.root = root
 
@@ -94,12 +95,19 @@ class MainWindow(Tk.Frame):
 
         
         # url 
-        url_label = Tk.Label(self, text="Browser Source URL:", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=3, column=0, columnspan=2)
+        url_label = Tk.Label(self, text="Browser Source URL:", justify=Tk.LEFT, anchor="w").grid(sticky=Tk.W, row=3, column=0, columnspan=1)
 
         self.url_string_var = Tk.StringVar()
         self.url_string_var.set("http://" + self.model.get_ip_address() + ":" + str(PORT) + "/index.html")
         url_entry = Tk.Entry(self, textvariable=self.url_string_var, state='readonly', justify=Tk.LEFT).grid(sticky=Tk.E+Tk.W, row=4, column=0, columnspan=2)
 
+
+        # online status
+        self.online_status_var = Tk.StringVar()
+        self.online_status_var.set("offline")
+        self.online_status_label = Tk.Label(self, textvariable=self.online_status_var, justify=Tk.RIGHT, anchor="e")  
+        self.online_status_label.grid(sticky=Tk.E, row=3, column=1)
+        
 
         # selected profile
         self.selected_profile_label_var = Tk.StringVar()
@@ -123,6 +131,14 @@ class MainWindow(Tk.Frame):
 
         self.menubar.add_cascade(label="Profiles", menu=profiles_menu)
 
+    def notify(self):
+        self.update_profiles_menu()
+        self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
+        self.url_string_var.set(self.model.get_url_for_profile(self.selected_profile))
+        self.update_index_style_texts()
+        self.update_temperature()
+
+
     def update_temperature(self):
         temperature = self.model.get_temperature()
 
@@ -131,13 +147,11 @@ class MainWindow(Tk.Frame):
         else:
             self.temperature_label_var.set("Temperature: "  + "Can't read from sensor!")
 
-    def notify(self):
-        self.update_profiles_menu()
-        self.selected_profile_label_var.set("Selected Profile: " + self.selected_profile) 
-        self.url_string_var.set(self.model.get_url_for_profile(self.selected_profile))
-        self.update_index_style_texts()
-        self.update_temperature()
-
+    def update_online_status(self):
+        if self.model.online_status:
+            self.online_status_var.set("online")
+        else:
+            self.online_status_var.set("offline")
 
     def on_temperature_system_change(self):
         self.model.set_temperature_system(self.temperature_system_var.get())
