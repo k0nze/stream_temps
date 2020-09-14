@@ -37,6 +37,11 @@ class AboutDialog(Tk.Toplevel):
         version_label = Tk.Label(wrapper_frame, text="Version: " + VERSION)
         version_label.grid(row=2, column=0, columnspan=2)
 
+        # License
+        license_label = Tk.Label(wrapper_frame, text="BSD 3-Clause License")
+        license_label.grid(row=3, column=0, columnspan=2)
+
+
         # Created by
         konze_frame = Tk.Frame(wrapper_frame) 
 
@@ -51,59 +56,59 @@ class AboutDialog(Tk.Toplevel):
         konze_name_label.bind("<Button-1>", lambda e: self.open_browser("https://linktree.k0nze.gg"))
         konze_name_label.pack(side=Tk.RIGHT)
 
-        konze_frame.grid(row=3, column=0, columnspan=2, pady=10)
+        konze_frame.grid(row=4, column=0, columnspan=2, pady=10)
 
         # Links  
         # Discord
         discord_label = Tk.Label(wrapper_frame, text="Discord:")
-        discord_label.grid(row=4, column=0, columnspan=1, sticky=Tk.W)
+        discord_label.grid(row=5, column=0, columnspan=1, sticky=Tk.W)
 
         discord_link_label = Tk.Label(wrapper_frame, text="https://discord.k0nze.gg", fg="blue", cursor="hand2")
-        discord_link_label.grid(row=4, column=1, columnspan=1, sticky=Tk.W)
+        discord_link_label.grid(row=5, column=1, columnspan=1, sticky=Tk.W)
         discord_link_label.bind("<Button-1>", lambda e: self.open_browser("https://discord.k0nze.gg"))
 
         # Twitch
         twitch_label = Tk.Label(wrapper_frame, text="Twitch:")
-        twitch_label.grid(row=5, column=0, columnspan=1, sticky=Tk.W)
+        twitch_label.grid(row=6, column=0, columnspan=1, sticky=Tk.W)
 
         twitch_link_label = Tk.Label(wrapper_frame, text="https://twitch.tv/k0nze", fg="blue", cursor="hand2")
-        twitch_link_label.grid(row=5, column=1, columnspan=1, sticky=Tk.W)
+        twitch_link_label.grid(row=6, column=1, columnspan=1, sticky=Tk.W)
         twitch_link_label.bind("<Button-1>", lambda e: self.open_browser("https://twitch.tv/k0nze"))
 
         # Youtube
         youtube_label = Tk.Label(wrapper_frame, text="Youtube:")
-        youtube_label.grid(row=6, column=0, columnspan=1, sticky=Tk.W)
+        youtube_label.grid(row=7, column=0, columnspan=1, sticky=Tk.W)
 
         youtube_link_label = Tk.Label(wrapper_frame, text="https://youtube.com/k0nze", fg="blue", cursor="hand2")
-        youtube_link_label.grid(row=6, column=1, columnspan=1, sticky=Tk.W)
+        youtube_link_label.grid(row=7, column=1, columnspan=1, sticky=Tk.W)
         youtube_link_label.bind("<Button-1>", lambda e: self.open_browser("https://youtube.com/k0nze"))
 
         # Twitter
         twitter_label = Tk.Label(wrapper_frame, text="Twitter:")
-        twitter_label.grid(row=7, column=0, columnspan=1, sticky=Tk.W)
+        twitter_label.grid(row=8, column=0, columnspan=1, sticky=Tk.W)
 
         twitter_link_label = Tk.Label(wrapper_frame, text="https://twitter.com/k0nze_gg", fg="blue", cursor="hand2")
-        twitter_link_label.grid(row=7, column=1, columnspan=1, sticky=Tk.W)
+        twitter_link_label.grid(row=8, column=1, columnspan=1, sticky=Tk.W)
         twitter_link_label.bind("<Button-1>", lambda e: self.open_browser("https://twitter.com/k0nze_gg"))
 
         # Instagram 
         instagram_label = Tk.Label(wrapper_frame, text="Instagram:")
-        instagram_label.grid(row=8, column=0, columnspan=1, sticky=Tk.W)
+        instagram_label.grid(row=9, column=0, columnspan=1, sticky=Tk.W)
 
         instagram_link_label = Tk.Label(wrapper_frame, text="https://instagram.com/k0nze.gg", fg="blue", cursor="hand2")
-        instagram_link_label.grid(row=8, column=1, columnspan=1, sticky=Tk.W)
+        instagram_link_label.grid(row=9, column=1, columnspan=1, sticky=Tk.W)
         instagram_link_label.bind("<Button-1>", lambda e: self.open_browser("https://instagram.com/k0nze.gg"))
 
         # Github 
         github_label = Tk.Label(wrapper_frame, text="GitHub:")
-        github_label.grid(row=9, column=0, columnspan=1, sticky=Tk.W)
+        github_label.grid(row=10, column=0, columnspan=1, sticky=Tk.W)
 
         github_link_label = Tk.Label(wrapper_frame, text="https://github.com/k0nze", fg="blue", cursor="hand2")
-        github_link_label.grid(row=9, column=1, columnspan=1, sticky=Tk.W)
+        github_link_label.grid(row=10, column=1, columnspan=1, sticky=Tk.W)
         github_link_label.bind("<Button-1>", lambda e: self.open_browser("https://github.com/k0nze/stream_temps"))
 
         # Close button
-        close_button = Tk.Button(wrapper_frame, text="Close", command=self.on_close).grid(row=10, column=0, columnspan=2, pady=10)
+        close_button = Tk.Button(wrapper_frame, text="Close", command=self.on_close).grid(row=11, column=0, columnspan=2, pady=10)
 
         wrapper_frame.grid(row=0, column=0, padx=10)
 
