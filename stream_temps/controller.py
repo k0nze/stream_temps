@@ -85,9 +85,11 @@ class Controller:
                 time.sleep(30)
 
     def start_online_checker(self):
+        time.sleep(5)
         while True:
             try:
                 response = urllib.request.urlopen(self.model.get_url_for_profile("default"))
+
                 if response.getcode() == 200:
                     self.model.set_online_status(True)
                 else:
