@@ -140,7 +140,7 @@ class Model():
 
     def __update_temperature_file(self):
         with open(ROOT_DIR + "/" + "temperature.txt", "w") as temperature_file:
-            temperature_file.write("{:.1f}".format(self.get_temperature()))
+            temperature_file.write("{:.0f}".format(self.get_temperature()))
 
     def get_temperature_system(self):
         return self.data['settings']['temperature_system']
