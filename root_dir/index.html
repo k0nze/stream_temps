@@ -11,32 +11,21 @@
     </head>
     <body>
 <div id="wrapper">
-	<div id="text">Room Temperature<div>
-	<div id="degree">$(TEMPERATURE) C<div>
+	<div id="text">Room Temperature</div>
+	<div id="temperature">
+		<span id="degree"></span>
+		<span id="temperature_system">&#176;C</span>
+	</div>
 </div>
     </body>
     <script>
-        function updateTemperature() {
-	    $.get('temperature.txt', function(data) {
-                var temperature = parseFloat(data);
-		if(!isNaN(temperature)) {
-                    var degree_content = $('#degree').html();
-	            degree_content = degree_content.replace("$(TEMPERATURE)", temperature);
-	            $('#degree').html(degree_content);
-		}
-	    });
-        }
-	//setInterval(updateTemperature, 5000);
-
-	/*
         function reloadPage() {
             location.reload();
         }
         setInterval(reloadPage, 30000);
-	*/
-
-        $(document).ready(function() {
-            updateTemperature();
-        });
+	
+	$(function() {
+	    $("#degree").load("temperature.txt");
+	});
     </script>
 </html>
