@@ -6,7 +6,11 @@ except ModuleNotFoundError:
 import threading
 import socketserver
 import time
-import Adafruit_DHT
+
+try:
+    import Adafruit_DHT
+except:
+    pass
 
 from pathlib import Path
 
@@ -15,12 +19,15 @@ from .consts import *
 from .view import View
 from .model import Model
 from .web_server import WebServer
+from .is_raspberry_pi import is_raspberry_pi
 
 
 class Controller:
     def __init__(self):
         user_dir = Path.home()
         json_path = Path.joinpath(user_dir, '.stream_temps.json')
+
+        IS_RASPBERRY_PI = is_raspberry_pi()
 
         self.model = Model(json_path)
 
@@ -50,18 +57,24 @@ class Controller:
             httpd.serve_forever()
 
     def start_dht_reader(self):
-        DHT_SENSOR = Adafruit_DHT.DHT22
-        DHT_PIN = 4
+        if IS_RASPBERRY_PI:
+            DHT_SENSOR = Adafruit_DHT.DHT22
+            DHT_PIN = 4
 
-        while True:
-            humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+            while True:
+                humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
 
-            if humidity is not None and temperature is not None:
-                self.model.set_temperature(temperature)
-            else:
-                self.model.set_temperature(None)
+                if humidity is not None and temperature is not None:
+                    self.model.set_temperature(temperature)
+                else:
+                    self.model.set_temperature(None)
 
-            time.sleep(30)
+                time.sleep(30)
+
+        else:
+            while True:
+                self.model.set_temperature(42)
+                time.sleep(30)
 
     def quit(self):
         self.root.quit()
