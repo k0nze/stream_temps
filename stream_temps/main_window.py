@@ -10,8 +10,10 @@ except ModuleNotFoundError:
     from tkinter.scrolledtext import ScrolledText
 
 from PIL import ImageTk, Image
+
 from .consts import *
 from .add_profile_dialog import AddProfileDialog
+from .about_dialog import AboutDialog
 
 import copy
 
@@ -185,7 +187,13 @@ class MainWindow(Tk.Frame):
         self.model.save_profile(self.selected_profile, html, css)
 
     def on_about(self):
-        print("about")
+        about_dialog = AboutDialog(self.root)
+
+        # make window modal
+        about_dialog.wait_visibility()
+        about_dialog.focus_set()
+        about_dialog.grab_set()
+        about_dialog.transient(self.root)
     
     def on_select_profile(self, profile_name):
         self.selected_profile = profile_name

@@ -1,0 +1,116 @@
+try:
+    import Tkinter as Tk
+    import Tkinter.font as TkFont
+except ModuleNotFoundError:
+    import tkinter as Tk
+    import tkinter.font as TkFont
+
+from PIL import ImageTk, Image
+from .consts import *
+
+import webbrowser
+
+class AboutDialog(Tk.Toplevel):
+    def __init__(self, master):
+        Tk.Toplevel.__init__(self, master)
+
+        #self.minsize(246, 66)
+        #self.resizable(False, False)
+
+        self.title("About Stream Temps")
+
+        wrapper_frame = Tk.Frame(self)
+
+        # Stream Temps Logo
+        stream_temps_logo = ImageTk.PhotoImage(Image.open(IMAGES_DIR + "/logo_120x120.png"))
+        stream_temps_logo_label = Tk.Label(wrapper_frame)
+        stream_temps_logo_label.image = stream_temps_logo
+        stream_temps_logo_label.configure(image=stream_temps_logo)
+        stream_temps_logo_label.grid(row=0, column=0, columnspan=2, pady=15)
+      
+        # Stream Temps Name
+        stream_temps_name_font_style = TkFont.Font(family="TkDefaultFont", size=12)
+        stream_temps_name_label = Tk.Label(wrapper_frame, text="Stream Temps", font=stream_temps_name_font_style)
+        stream_temps_name_label.grid(row=1, column=0, columnspan=2)
+
+        # Version
+        version_label = Tk.Label(wrapper_frame, text="Version: " + VERSION)
+        version_label.grid(row=2, column=0, columnspan=2)
+
+        # Created by
+        konze_frame = Tk.Frame(wrapper_frame) 
+
+        k_logo = ImageTk.PhotoImage(Image.open(IMAGES_DIR + "/k_logo_30x30.png"))
+        k_logo_label = Tk.Label(konze_frame)
+        k_logo_label.image = k_logo
+        k_logo_label.configure(image=k_logo, cursor="hand2")
+        k_logo_label.bind("<Button-1>", lambda e: self.open_browser("https://linktree.k0nze.gg"))
+        k_logo_label.pack(side=Tk.LEFT)
+
+        konze_name_label = Tk.Label(konze_frame, text="Created by Konstantin (Konze) Lübeck", cursor="hand2")
+        konze_name_label.bind("<Button-1>", lambda e: self.open_browser("https://linktree.k0nze.gg"))
+        konze_name_label.pack(side=Tk.RIGHT)
+
+        konze_frame.grid(row=3, column=0, columnspan=2, pady=10)
+
+        # Links  
+        # Discord
+        discord_label = Tk.Label(wrapper_frame, text="Discord:")
+        discord_label.grid(row=4, column=0, columnspan=1, sticky=Tk.W)
+
+        discord_link_label = Tk.Label(wrapper_frame, text="https://discord.k0nze.gg", fg="blue", cursor="hand2")
+        discord_link_label.grid(row=4, column=1, columnspan=1, sticky=Tk.W)
+        discord_link_label.bind("<Button-1>", lambda e: self.open_browser("https://discord.k0nze.gg"))
+
+        # Twitch
+        twitch_label = Tk.Label(wrapper_frame, text="Twitch:")
+        twitch_label.grid(row=5, column=0, columnspan=1, sticky=Tk.W)
+
+        twitch_link_label = Tk.Label(wrapper_frame, text="https://twitch.tv/k0nze", fg="blue", cursor="hand2")
+        twitch_link_label.grid(row=5, column=1, columnspan=1, sticky=Tk.W)
+        twitch_link_label.bind("<Button-1>", lambda e: self.open_browser("https://twitch.tv/k0nze"))
+
+        # Youtube
+        youtube_label = Tk.Label(wrapper_frame, text="Youtube:")
+        youtube_label.grid(row=6, column=0, columnspan=1, sticky=Tk.W)
+
+        youtube_link_label = Tk.Label(wrapper_frame, text="https://youtube.com/k0nze", fg="blue", cursor="hand2")
+        youtube_link_label.grid(row=6, column=1, columnspan=1, sticky=Tk.W)
+        youtube_link_label.bind("<Button-1>", lambda e: self.open_browser("https://youtube.com/k0nze"))
+
+        # Twitter
+        twitter_label = Tk.Label(wrapper_frame, text="Twitter:")
+        twitter_label.grid(row=7, column=0, columnspan=1, sticky=Tk.W)
+
+        twitter_link_label = Tk.Label(wrapper_frame, text="https://twitter.com/k0nze_gg", fg="blue", cursor="hand2")
+        twitter_link_label.grid(row=7, column=1, columnspan=1, sticky=Tk.W)
+        twitter_link_label.bind("<Button-1>", lambda e: self.open_browser("https://twitter.com/k0nze_gg"))
+
+        # Instagram 
+        instagram_label = Tk.Label(wrapper_frame, text="Instagram:")
+        instagram_label.grid(row=8, column=0, columnspan=1, sticky=Tk.W)
+
+        instagram_link_label = Tk.Label(wrapper_frame, text="https://instagram.com/k0nze.gg", fg="blue", cursor="hand2")
+        instagram_link_label.grid(row=8, column=1, columnspan=1, sticky=Tk.W)
+        instagram_link_label.bind("<Button-1>", lambda e: self.open_browser("https://instagram.com/k0nze.gg"))
+
+        # Github 
+        github_label = Tk.Label(wrapper_frame, text="GitHub:")
+        github_label.grid(row=9, column=0, columnspan=1, sticky=Tk.W)
+
+        github_link_label = Tk.Label(wrapper_frame, text="https://github.com/k0nze", fg="blue", cursor="hand2")
+        github_link_label.grid(row=9, column=1, columnspan=1, sticky=Tk.W)
+        github_link_label.bind("<Button-1>", lambda e: self.open_browser("https://github.com/k0nze/stream_temps"))
+
+        # Close button
+        close_button = Tk.Button(wrapper_frame, text="Close", command=self.on_close).grid(row=10, column=0, columnspan=2, pady=10)
+
+        wrapper_frame.grid(row=0, column=0, padx=10)
+
+    def open_browser(self, url):
+        webbrowser.open_new(url)
+
+    def on_close(self):
+        self.destroy()
+
+
