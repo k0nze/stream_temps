@@ -27,7 +27,7 @@ class Controller:
         user_dir = Path.home()
         json_path = Path.joinpath(user_dir, '.stream_temps.json')
 
-        IS_RASPBERRY_PI = is_raspberry_pi()
+        self.is_raspberry_pi = is_raspberry_pi()
 
         self.model = Model(json_path)
 
@@ -57,7 +57,7 @@ class Controller:
             httpd.serve_forever()
 
     def start_dht_reader(self):
-        if IS_RASPBERRY_PI:
+        if self.is_raspberry_pi:
             DHT_SENSOR = Adafruit_DHT.DHT22
             DHT_PIN = 4
 
