@@ -9,6 +9,7 @@ except ModuleNotFoundError:
     import tkinter.font as TkFont
     from tkinter.scrolledtext import ScrolledText
 
+from PIL import ImageTk, Image
 from .consts import *
 from .add_profile_dialog import AddProfileDialog
 
@@ -103,11 +104,20 @@ class MainWindow(Tk.Frame):
 
 
         # online status
+        online_status_frame = Tk.Frame(self)
+
         self.online_status_var = Tk.StringVar()
         self.online_status_var.set("offline")
-        self.online_status_label = Tk.Label(self, textvariable=self.online_status_var, justify=Tk.RIGHT, anchor="e")  
-        self.online_status_label.grid(sticky=Tk.E, row=3, column=1)
+        self.online_status_label = Tk.Label(online_status_frame, textvariable=self.online_status_var, justify=Tk.RIGHT, anchor="e")  
+        self.online_status_label.pack(side=Tk.LEFT)
+
+        offline_icon = ImageTk.PhotoImage(Image.open(OFFLINE_ICON_PATH))
+        self.online_status_icon = Tk.Label(online_status_frame)
+        self.online_status_icon.image = offline_icon
+        self.online_status_icon.configure(image=offline_icon)
+        self.online_status_icon.pack(side=Tk.RIGHT)
         
+        online_status_frame.grid(sticky=Tk.E, row=3, column=1)
 
         # selected profile
         self.selected_profile_label_var = Tk.StringVar()
@@ -150,8 +160,15 @@ class MainWindow(Tk.Frame):
     def update_online_status(self):
         if self.model.online_status:
             self.online_status_var.set("online")
+            online_icon = ImageTk.PhotoImage(Image.open(ONLINE_ICON_PATH))
+            self.online_status_icon.image = online_icon
+            self.online_status_icon.configure(image=online_icon)
         else:
             self.online_status_var.set("offline")
+            offline_icon = ImageTk.PhotoImage(Image.open(OFFLINE_ICON_PATH))
+            self.online_status_icon.image = offline_icon
+            self.online_status_icon.configure(image=offline_icon)
+
 
     def on_temperature_system_change(self):
         self.model.set_temperature_system(self.temperature_system_var.get())
