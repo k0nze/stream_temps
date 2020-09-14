@@ -5,7 +5,8 @@ Let your viewers know that you are sweating
 
 ## Requirements
 
- * Raspberry Pi 2, 3, or 4 with Raspberry Pi OS
+ * Raspberry Pi 2, 3, or 4 with Raspberry Pi OS. You can find the setup video [here](https://www.youtube.com/watch?v=NAqBgF0swYo).
+ * DHT-22 Sensor
  * Python Version `3.7.3+` installed
 
 ## Setup
