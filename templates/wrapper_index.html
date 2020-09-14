@@ -13,17 +13,13 @@
 $(CONTENT)
     </body>
     <script>
-        function updateTemperature() {
-            $('#degree').html(42);
-        }
-
         function reloadPage() {
             location.reload();
         }
-        setInterval(reloadPage, 5000);
-
-        $(document).ready(function() {
-            updateTemperature();
-        });
+        setInterval(reloadPage, 30000);
+	
+	$(function() {
+	    $("#degree").load("temperature.txt");
+	});
     </script>
 </html>
