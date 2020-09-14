@@ -26,7 +26,7 @@ class AddProfileDialog(Tk.Toplevel):
         ok_cancel_button_frame = Tk.Frame(self)
 
         ok_button = Tk.Button(ok_cancel_button_frame, text="OK", command=self.on_ok).pack(side=Tk.LEFT)
-        ok_button = Tk.Button(ok_cancel_button_frame, text="Cancel", command=self.on_cancel).pack(side=Tk.LEFT)
+        cancel_button = Tk.Button(ok_cancel_button_frame, text="Cancel", command=self.on_cancel).pack(side=Tk.LEFT)
 
         ok_cancel_button_frame.grid(column=0, row=2, sticky=Tk.E+Tk.S)
 
