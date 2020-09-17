@@ -36,27 +36,27 @@ class Model():
                         "profiles": [
                             {
                                 "index_html": "index.html",
-                                "name": "default",
+                                "name": "Default",
                                 "style_css": "style.css"
                             },
                             {
                                 "index_html": "index_miami.html",
-                                "name": "miami",
+                                "name": "Miami",
                                 "style_css": "style_miami.css"
                             },
                             {
                                 "index_html": "index_risingsun.html",
-                                "name": "rising sun",
+                                "name": "Rising Sun",
                                 "style_css": "style_risingsun.css"
                             },
                             {
                                 "index_html": "index_barcode.html",
-                                "name": "barcode",
+                                "name": "Barcode",
                                 "style_css": "style_barcode.css"
                             },
                             {
                                 "index_html": "index_commandline.html",
-                                "name": "command line",
+                                "name": "Command Line",
                                 "style_css": "style_commandline.css"
                             }
                         ],
@@ -194,8 +194,8 @@ class Model():
             profile_names.append(profile['name'])
 
         sorted_profile_names = sorted(profile_names, key=str.casefold)
-        sorted_profile_names.remove('default')
-        sorted_profile_names = ['default'] + sorted_profile_names
+        sorted_profile_names.remove('Default')
+        sorted_profile_names = ['Default'] + sorted_profile_names
         return sorted_profile_names
 
 
