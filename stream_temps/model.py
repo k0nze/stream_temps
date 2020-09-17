@@ -173,7 +173,11 @@ class Model():
         for profile in self.data['profiles']:
             profile_names.append(profile['name'])
 
-        return sorted(profile_names, key=str.casefold)
+        sorted_profile_names = sorted(profile_names, key=str.casefold)
+        sorted_profile_names.remove('default')
+        sorted_profile_names = ['default'] + sorted_profile_names
+        return sorted_profile_names
+
 
     def get_default_profile_name(self):
         profile_names = self.get_profile_names()
