@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text');
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+body {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+#outer {
+	color: #000000;
+	font-family: 'Libre Barcode 128 Text';
+	text-align:center;
+	width: 100%;
+	height: 100%;
+	background-color: #ffffff;
+}
+
+#inner {
+	text-align: center;
+	padding-top:60px;
+	font-size:0px;
+}
+
+#degree {
+	font-size:100px;
+}
+
+#temperature_system {
+	font-size:100px;
+}

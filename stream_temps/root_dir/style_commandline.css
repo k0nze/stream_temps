@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+body {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+#outer {
+	border: 5px solid #00ff00;
+	width: 95%;
+	height: 95%;
+	background-color: #000000;
+}
+
+#inner {
+	color: #00ff00;
+	font-family: 'Press Start 2P';
+	padding-top: 55px;
+	font-size: 0px;
+	text-align: center;
+}
+
+#prefix {
+	font-size: 50px;
+}
+
+#degree {
+	font-size: 50px;
+}
+
+#temperature_system {
+	font-size: 50px;
+}
