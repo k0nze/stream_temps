@@ -32,17 +32,37 @@ class Model():
             try:
                 with open(self.json_path.resolve(), 'w') as json_file:
 
-                    self.data = {
-                        'settings': {
-                            'temperature_system': 'C'
-                        },
-                        'profiles': [
+                    self.data = { 
+                        "profiles": [
                             {
-                                'name': 'default',
-                                'index_html': 'index.html',
-                                'style_css': 'style.css'
+                                "index_html": "index.html",
+                                "name": "default",
+                                "style_css": "style.css"
+                            },
+                            {
+                                "index_html": "index_miami.html",
+                                "name": "miami",
+                                "style_css": "style_miami.css"
+                            },
+                            {
+                                "index_html": "index_risingsun.html",
+                                "name": "rising sun",
+                                "style_css": "style_risingsun.css"
+                            },
+                            {
+                                "index_html": "index_barcode.html",
+                                "name": "barcode",
+                                "style_css": "style_barcode.css"
+                            },
+                            {
+                                "index_html": "index_commandline.html",
+                                "name": "command line",
+                                "style_css": "style_commandline.css"
                             }
-                        ]
+                        ],
+                            "settings": {
+                            "temperature_system": "C"
+                        }
                     }
                             
                 
