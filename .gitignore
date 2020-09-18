@@ -1,3 +1,6 @@
 .python-version
 .*.swp
 __pycache__
+build
+dist
+.DS_Store
