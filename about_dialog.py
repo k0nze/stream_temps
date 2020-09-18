@@ -6,7 +6,7 @@ except ModuleNotFoundError:
     import tkinter.font as TkFont
 
 from PIL import ImageTk, Image
-from .consts import *
+from consts import *
 
 import webbrowser
 

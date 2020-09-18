@@ -15,12 +15,12 @@ except:
 
 from pathlib import Path
 
-from .consts import *
+from consts import *
 
-from .view import View
-from .model import Model
-from .web_server import WebServer
-from .is_raspberry_pi import is_raspberry_pi
+from view import View
+from model import Model
+from web_server import WebServer
+from is_raspberry_pi import is_raspberry_pi
 
 
 class Controller:

@@ -4,7 +4,7 @@ import netifaces
 
 from shutil import copyfile
 
-from .consts import *
+from consts import *
 
 class JsonFileCreateException(Exception):
     """ raised when json model could not be created """

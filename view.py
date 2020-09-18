@@ -5,7 +5,7 @@ except ModuleNotFoundError:
     import tkinter as Tk
     from tkinter import ttk
 
-from .main_window import MainWindow
+from main_window import MainWindow
 
 
 class View:

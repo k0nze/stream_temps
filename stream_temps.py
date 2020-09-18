@@ -1,4 +1,4 @@
-from stream_temps import Controller 
+from controller import Controller 
 
 if __name__ == '__main__':
     c = Controller()

@@ -11,9 +11,9 @@ except ModuleNotFoundError:
 
 from PIL import ImageTk, Image
 
-from .consts import *
-from .add_profile_dialog import AddProfileDialog
-from .about_dialog import AboutDialog
+from consts import *
+from add_profile_dialog import AddProfileDialog
+from about_dialog import AboutDialog
 
 import copy
 

@@ -1,7 +1,7 @@
 import http.server
 import os
 
-from .consts import *
+from consts import *
 
 class WebServer(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
