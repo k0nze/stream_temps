@@ -12,9 +12,15 @@ Let your viewers know that you are sweating
 ## Setup
 ### Hardware
 
-![DHT-22](./images/dht_22.png)
-![Raspberry Pi Pinout](./images/raspberry_pi_pinout.png)
-![Schematic](./images/schematic.png)
+### DHT-22 Sensor
+<img src="./images/dht_22.png" width="100" />
+
+### Raspberry Pi Pinout
+<img src="./images/raspberry_pi_pinout.png" width="500" />
+
+### Schematic
+<img src="./images/schematic.png" width="350" />
+
 
 *Raspberry Pi Pinout from: [https://www.raspberrypi.org/documentation/usage/gpio/](https://www.raspberrypi.org/documentation/usage/gpio/)*
 
