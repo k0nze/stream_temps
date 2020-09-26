@@ -12,7 +12,11 @@ Let your viewers know that you are sweating
 ## Setup
 ### Hardware
 
-TODO fritzing image
+![DHT-22](./images/dht_22.png)
+![Raspberry Pi Pinout](./images/raspberry_pi_pinout.png)
+![Schematic](./images/schematic.png)
+
+*Raspberry Pi Pinout from: [https://www.raspberrypi.org/documentation/usage/gpio/](https://www.raspberrypi.org/documentation/usage/gpio/)*
 
 ### Bundle + Zip with PyInstaller
 
