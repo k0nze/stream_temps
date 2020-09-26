@@ -14,9 +14,14 @@ Let your viewers know that you are sweating
 
 TODO fritzing image
 
-### Debian Package
+### Bundle with PyInstaller
 
-TODO Debian Package
+Bundling has to take place on a Raspberry Pi
+
+```bash
+python3 -m pip install pyinstaller
+python3 -m PyInstaller stream_temps.spec
+```
 
 ### Command Line
 
