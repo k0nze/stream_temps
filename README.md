@@ -14,13 +14,12 @@ Let your viewers know that you are sweating
 
 TODO fritzing image
 
-### Bundle with PyInstaller
+### Bundle + Zip with PyInstaller
 
 Bundling has to take place on a Raspberry Pi
 
 ```bash
-python3 -m pip install pyinstaller
-python3 -m PyInstaller stream_temps.spec
+make zip
 ```
 
 ### Command Line
