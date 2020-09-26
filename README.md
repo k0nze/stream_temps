@@ -3,10 +3,13 @@
 
 Let your viewers know that you are sweating
 
-## Requirements
+## Requirements/Parts
 
  * Raspberry Pi 2, 3, or 4 with Raspberry Pi OS. You can find the setup video [here](https://www.youtube.com/watch?v=NAqBgF0swYo).
  * DHT-22 Sensor
+ * 10k Resistor
+ * Some cables (female-male, male-male)
+ * Breadboard
  * Python Version `3.7.3+` installed
 
 ## Setup
