@@ -1,5 +1,5 @@
 # Stream Temps 
-![Logo](./stream_temps/images/logo_120x120.png "Logo")
+![Logo](./images/logo_120x120.png "Logo")
 
 Let your viewers know that you are sweating
 
@@ -30,7 +30,7 @@ python3 stream_temps.py
 ```
 
 ## Credits
-![K0nze Logo](./stream_temps/images/k_logo_30x30.png "Logo") Created by Konstantin (Konze) Lübeck
+![K0nze Logo](./images/k_logo_30x30.png "Logo") Created by Konstantin (Konze) Lübeck
 
  * Discord: [discord.k0nze.gg](https://discord.k0nze.org) 
  * Twitch: [twitch.tv/k0nze](https://twitch.tv/k0nze) 
