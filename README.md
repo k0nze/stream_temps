@@ -15,16 +15,34 @@ Let your viewers know that you are sweating
 ### DHT-22 Sensor
 <img src="./images/dht_22.png" width="100" />
 
+* Pin 1: VCC (power supply)
+* Pin 2: DATA (data signal)
+* Pin 3: not connected
+* Pin 4: GND (ground)
+
 ### Raspberry Pi Pinout
-<img src="./images/raspberry_pi_pinout.png" width="500" />
+<img src="./images/raspberry_pi_pinout.png" width="700" />
+
+* Pin 1: VCC 3.3V
+* Pin 6: GND
+* Pin 7: GPIO 4
 
 ### Schematic
-<img src="./images/schematic.png" width="350" />
+<img src="./images/schematic.png" width="400" />
 
+* 10k Resistor between Pin 1 and Pin 2 of the DHT-22
+* Wire Pin 1 (VCC) of the DHT-22 to Pin 1 (VCC 3.3V) of the Raspberry Pi
+* Wire Pin 2 (DATA) of the DHT-22 to Pin 7 (GPIO 4) of the Raspberry Pi
+* Wire Pin 4 (GND) of the DHT-22 to Pin 6 (GND) of the Raspberry Pi
 
 *Raspberry Pi Pinout from: [https://www.raspberrypi.org/documentation/usage/gpio/](https://www.raspberrypi.org/documentation/usage/gpio/)*
 
-### Bundle + Zip with PyInstaller
+### Software
+
+* Download from TODO
+* unzip and double click on `run.sh` TODO
+
+## Bundle + Zip with PyInstaller
 
 Bundling has to take place on a Raspberry Pi
 
@@ -32,7 +50,7 @@ Bundling has to take place on a Raspberry Pi
 make zip
 ```
 
-### Command Line
+## Command Line
 
 ```bash
 python3 -m pip install -r requirements.txt
