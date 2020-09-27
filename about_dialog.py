@@ -14,8 +14,8 @@ class AboutDialog(Tk.Toplevel):
     def __init__(self, master):
         Tk.Toplevel.__init__(self, master)
 
-        #self.minsize(246, 66)
-        #self.resizable(False, False)
+        self.minsize(309, 446)
+        self.resizable(False, False)
 
         self.title("About Stream Temps")
 
@@ -111,6 +111,10 @@ class AboutDialog(Tk.Toplevel):
         close_button = Tk.Button(wrapper_frame, text="Close", command=self.on_close).grid(row=11, column=0, columnspan=2, pady=10)
 
         wrapper_frame.grid(row=0, column=0, padx=10)
+
+        self.update()
+        print(self.winfo_height())
+        print(self.winfo_width())
 
     def open_browser(self, url):
         webbrowser.open_new(url)
