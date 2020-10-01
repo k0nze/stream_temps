@@ -1,0 +1,12 @@
+# Changelog
+## Version 0.1.1
+
+ tag `v0.1.1`
+
+ * `~/.stream_temps` directory with `data.json` and `root_dir` is created
+
+## Version 0.1
+
+ tag `v0.1`
+
+ * Inital release

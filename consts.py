@@ -2,7 +2,7 @@ import os
 
 from pathlib import Path
 
-VERSION = "v0.1"
+VERSION = "v0.1.1"
 
 PORT = 8000
 
