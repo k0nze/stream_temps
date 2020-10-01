@@ -1,8 +1,9 @@
 import json
 import os
 import netifaces
+import shutil
 
-from shutil import copyfile
+from glob import glob
 
 from consts import *
 from pathlib import Path
@@ -22,15 +23,29 @@ class JsonFileWriteException(Exception):
     pass
 
 
+class DirCreationException(Exception):
+    """ raised when """
+    pass
+
+class CopyFileException(Exception):
+    """ raised when """
+    pass
+
+
 class Model():
     def __init__(self, data_path):
-        # check if ~/.stream_temps
-         
+
         self.data_path = data_path
 
+        # check if ~/.stream_temps
         if not self.data_path.is_dir(): 
             # try to create ~/.stream_temps dir
-            os.mkdir(self.data_path)
+            try:
+                os.mkdir(self.data_path)
+            except Exception as e:
+                raise DirCreateException
+
+
 
         # check if ~/.stream_temps/data.json exists
         self.json_path = Path.joinpath(self.data_path, 'data.json') 
@@ -74,7 +89,6 @@ class Model():
                             "temperature_system": "C"
                         }
                     }
-                            
                 
                     json.dump(self.data, json_file, sort_keys=True, indent=4)
 
@@ -85,6 +99,27 @@ class Model():
         else: 
             with open(self.json_path.resolve(), 'r') as json_file:
                 self.data = json.load(json_file)
+
+        # check if ~/.stream_temps/root_dir exists
+        self.root_dir_path = Path.joinpath(self.data_path, 'root_dir') 
+
+        if not self.root_dir_path.is_dir(): 
+            # try to create ~/.stream_temps dir
+            try:
+                os.mkdir(self.root_dir_path)
+            except Exception as e:
+                raise DirCreateException
+
+            try:
+                root_dir = str(os.path.dirname(os.path.realpath(__file__))) + "/root_dir"
+                src_files = os.listdir(root_dir) 
+                for file_name in src_files:
+                    full_file_name = os.path.join(root_dir, file_name)
+                    if os.path.isfile(full_file_name):
+                        shutil.copy(full_file_name, self.root_dir_path)
+            except Exception as e:
+                raise CopyFileException 
+      
 
         self.observers = []
 
@@ -277,7 +312,7 @@ class Model():
 
     def get_html(self, profile_name):
         # read root_dir/index.html
-        index_html_file = open(ROOT_DIR+ "/" + self.get_profile_index_html_file_name(profile_name), "r")
+        index_html_file = open(ROOT_DIR + "/" + self.get_profile_index_html_file_name(profile_name), "r")
         index_html = index_html_file.read()
         index_html_file.close()
        
