@@ -5,6 +5,7 @@ import netifaces
 from shutil import copyfile
 
 from consts import *
+from pathlib import Path
 
 class JsonFileCreateException(Exception):
     """ raised when json model could not be created """
@@ -22,9 +23,18 @@ class JsonFileWriteException(Exception):
 
 
 class Model():
-    def __init__(self, json_path):
-        # check if json model exists
-        self.json_path = json_path
+    def __init__(self, data_path):
+        # check if ~/.stream_temps
+         
+        self.data_path = data_path
+
+        if not self.data_path.is_dir(): 
+            # try to create ~/.stream_temps dir
+            os.mkdir(self.data_path)
+
+        # check if ~/.stream_temps/data.json exists
+        self.json_path = Path.joinpath(self.data_path, 'data.json') 
+
         self.data = dict()
         
         if not self.json_path.is_file():

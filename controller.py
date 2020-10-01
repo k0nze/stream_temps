@@ -26,11 +26,11 @@ from is_raspberry_pi import is_raspberry_pi
 class Controller:
     def __init__(self):
         user_dir = Path.home()
-        json_path = Path.joinpath(user_dir, '.stream_temps.json')
+        data_path = Path.joinpath(user_dir, '.stream_temps')
 
         self.is_raspberry_pi = is_raspberry_pi()
 
-        self.model = Model(json_path)
+        self.model = Model(data_path)
 
         self.root = Tk.Tk()
         self.view = View(self.model, self)
