@@ -3,6 +3,14 @@
 
 Let your viewers know that you are sweating
 
+## Setup Video
+<a href="https://youtu.be/FHHvAQOY7SQ">
+    <img src="./images/youtube_thumbnail.jpg" width="500"/>
+</a>
+
+[Youtube Video Link](https://youtu.be/FHHvAQOY7SQ)
+
+
 ## Requirements/Parts
 
  * Raspberry Pi 2, 3, or 4 with Raspberry Pi OS. You can find the setup video [here](https://www.youtube.com/watch?v=NAqBgF0swYo).
@@ -13,6 +21,8 @@ Let your viewers know that you are sweating
  * Python Version `3.7.3+` installed
 
 ## Setup
+
+
 ### Hardware
 
 ### DHT-22 Sensor
@@ -42,8 +52,8 @@ Let your viewers know that you are sweating
 
 ### Software
 
-* Download from TODO
-* unzip and double click on `run.sh` TODO
+* Download from [https://k0nze.gg/stream_temps](https://k0nze.gg/stream_temps)
+* unzip and double click on `run.sh`
 
 ## Bundle + Zip with PyInstaller
 
